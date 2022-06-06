@@ -14,9 +14,15 @@ enum custom_keycodes {
     C_SNKC,
 };
 
-#include "trankillity.h"
+#include "config.h"
 #include "g/keymap_combo.h"
 #include "features/casemodes.h"
+
+#ifdef COMBO_ENABLE
+    #define COMBO_ONLY_FROM_LAYER _COMB
+    #define COMBO_VARIABLE_LEN
+    #define COMBO_TERM 50
+#endif
 
 #define ___ KC_TRNS
 #define XXX KC_NO
@@ -84,7 +90,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_SYST] = LAYOUT_ffkb(
   _______, RGB_SPI, RGB_HUI, RGB_SAI, RGB_VAI, RGB_MOD,      RGB_RMOD, RGB_VAD, RGB_SAD, RGB_HUD, RGB_SPD, _______,
-  _______, _______, _______, _______, _______, RGB_TOG,      RGB_TOG, _______, _______, _______, _______, _______,
+  EEP_RST, _______, _______, _______, _______, RGB_TOG,      RGB_TOG, _______, _______, _______, _______, EEP_RST,
   QK_BOOT, _______, _______, KC_PAUS, KC_PSCR, _______,      _______, KC_PSCR, KC_PAUS, _______, _______, QK_BOOT,
                     _______, _______, _______, _______,      _______, _______, _______, _______,
                                                       _______
