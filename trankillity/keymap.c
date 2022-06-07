@@ -17,15 +17,16 @@ enum custom_keycodes {
 #include "config.h"
 #include "g/keymap_combo.h"
 #include "features/casemodes.h"
+#include "features/rgb_matrix_ledmaps.h"
 
 #ifdef COMBO_ENABLE
     #define COMBO_ONLY_FROM_LAYER _COMB
     #define COMBO_VARIABLE_LEN
-    #define COMBO_TERM 50
+    #undef COMBO_TERM
+    #define COMBO_TERM 30
 #endif
 
 #define ___ KC_TRNS
-#define XXX KC_NO
 
 #define C_SELA      C(KC_A)
 #define C_UNDO      C(KC_Z)
@@ -68,20 +69,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     C_CLFT,        KC_Q,       KC_W,       KC_F,       KC_P,       KC_B,           KC_J,       KC_L,       KC_U,       KC_Y,       KC_QUOT,    C_CRGT,
     C_TABI,        KC_A,       KC_R,       KC_S,       KC_T,       KC_G,           KC_M,       KC_N,       KC_E,       KC_I,       KC_O,       C_TABD,
     OSM_CTL,       KC_Z,       KC_X,       KC_C,       KC_D,       KC_V,           KC_K,       KC_H,       KC_COMM,    KC_DOT,     KC_SLSH,    OSM_CTL,
-                       XXX,      OSL(_NUMB),        OSM_SFT,       KC_BSPC,        KC_ENTER,   KC_SPC,       OSL(_NAVI),       XXX,
-                                                                        XXX
+                       KC_NO,      OSL(_NUMB),        OSM_SFT,       KC_BSPC,        KC_ENTER,   KC_SPC,       OSL(_NAVI),       KC_NO,
+                                                                        KC_NO
 ),
 
 [_NUMB] = LAYOUT_ffkb(
-  KC_F6,    KC_F5,      KC_F4,      KC_F3,      KC_F2,      KC_F1,              KC_PEQL,    KC_7,       KC_8,       KC_9,       KC_PDOT,        KC_EXLM,
+  KC_F6,    KC_F5,      KC_F4,      KC_F3,      KC_F2,      KC_F1,              KC_EQL,     KC_7,       KC_8,       KC_9,       KC_DOT,         KC_EXLM,
   C_TABI,   OSM_GUI,    OSM_ALT,    OSM_CTL,    OSM_SFT,    _______,            KC_PPLS,    KC_4,       KC_5,       KC_6,       KC_PAST,        KC_GRV,
-  KC_F12,   KC_F11,     KC_F10,     KC_F9,      KC_F8,      KC_F7,              KC_MINS,    KC_1,       KC_2,       KC_3,       KC_PSLS,        KC_UNDS,
-                    _______, _______, _______, _______,      KC_0, _______, _______, _______,
+  KC_F12,   KC_F11,     KC_F10,     KC_F9,      KC_F8,      KC_F7,              KC_MINS,    KC_1,       KC_2,       KC_3,       KC_SLSH,        KC_UNDS,
+                    _______, _______, _______, _______,      _______, KC_0, _______, _______,
                                                       _______
 ),
 
 [_NAVI] = LAYOUT_ffkb(
-  C_SNKC, KC_INS, KC_HOME, KC_UP,   KC_END,  KC_PGUP,      KC_ESC, C_WIND, C_WINI, C_DSKT, C_PEEK, KC_BSLS,
+  C_SNKC, KC_INS, KC_HOME, KC_UP,   KC_END,  KC_PGUP,      KC_ESC,  C_WIND,  C_WINI,  C_DSKT,  C_PEEK,  KC_BSLS,
   C_TABI, C_SELA, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN,      KC_VOLU, OSM_SFT, OSM_CTL, OSM_ALT, OSM_GUI, C_TABD,
   C_CAPW, C_UNDO, C_CUT,   C_COPY,  C_PAST,  C_REDO,       KC_VOLD, KC_MPRV, KC_MPLY, KC_MNXT, KC_MSTP, KC_MUTE,
                     _______, _______, _______, _______,      _______, _______, _______, _______,
@@ -101,7 +102,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_1,       KC_Q,       KC_W,       KC_F,       KC_P,       KC_B,           KC_J,       KC_L,       KC_U,       KC_Y,       KC_QUOT,    KC_4,
     KC_2,       KC_A,       KC_R,       KC_S,       KC_T,       KC_G,           KC_M,       KC_N,       KC_E,       KC_I,       KC_O,       KC_5,
     KC_3,       KC_Z,       KC_X,       KC_C,       KC_D,       KC_V,           KC_K,       KC_H,       KC_COMM,    KC_DOT,     KC_SLSH,    KC_6,
-                            _______,    _______,    _______,    _______,        _______,    _______,    _______,    _______,
+                            _______,    _______,    _______,    KC_BSPC,        KC_ENTER,    _______,    _______,    _______,
                                                                         _______
 ),
 
@@ -115,6 +116,33 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 };
+
+#ifdef RGB_MATRIX_LEDMAPS_ENABLED
+#undef ______
+#define ______ {0, 0, 0}
+
+const ledmap PROGMEM ledmaps[] = {
+//   ______, ______, ______, ______, ______, ______,      ______, ______, ______, ______, ______, ______,
+//   ______, ______, ______, ______, ______, ______,      ______, ______, ______, ______, ______, ______,
+//   ______, ______, ______, ______, ______, ______,      ______, ______, ______, ______, ______, ______,
+//                     ______, ______, ______, ______,      ______, ______, ______, ______,
+//                                                       _______
+    [_NUMB] = RGB_MATRIX_LAYOUT_LEDMAP(
+  HSV_AZURE, ______, HSV_YELLOW, ______, HSV_ORANGE, ______,      HSV_AZURE, ______, HSV_YELLOW, ______, HSV_ORANGE, ______,
+  ______, HSV_RED, ______, HSV_PURPLE, ______, HSV_TEAL,      ______, HSV_RED, ______, HSV_PURPLE, ______, HSV_TEAL,
+  HSV_AZURE, ______, HSV_YELLOW, ______, HSV_ORANGE, ______,      HSV_AZURE, ______, HSV_YELLOW, ______, HSV_ORANGE, ______,
+                    ______, ______, ______,      ______, ______, ______
+    ),
+//     [_NAVI] = RGB_MATRIX_LAYOUT_LEDMAP(
+//   _______, HSV_RED, _______, HSV_PURPLE, _______, HSV_TEAL,      _______, HSV_RED, _______, HSV_PURPLE, _______, HSV_TEAL,
+//   HSV_AZURE, _______, HSV_YELLOW, _______, HSV_ORANGE, _______,      HSV_AZURE, _______, HSV_YELLOW, _______, HSV_ORANGE, _______,
+//   _______, HSV_RED, _______, HSV_PURPLE, _______, HSV_TEAL,      _______, HSV_RED, _______, HSV_PURPLE, _______, HSV_TEAL,
+//                     _______, _______, _______, _______,      _______, _______, _______, _______,
+//                                                       _______
+//     ),
+};
+
+#endif // RGB_MATRIX_LEDMAPS_ENABLED
 
 layer_state_t layer_state_set_user(layer_state_t state) {
   return update_tri_layer_state(state, _NUMB, _NAVI, _SYST);
